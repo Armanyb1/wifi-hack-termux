@@ -1,4 +1,4 @@
-# 🔥 Arman Tool (Wireless Security Testing)
+🔥 Arman Tool (Wireless Security Testing)
 
 A professional and secure Wi-Fi security auditing tool designed specifically for Testing. Developed by **Arman Yb**.
 
@@ -6,9 +6,10 @@ A professional and secure Wi-Fi security auditing tool designed specifically for
 
 ### 📥 How to Install & Run (ইনস্টলেশন ও চালুর নিয়ম):
 আপনার টার্মাক্স (Termux) অ্যাপে নিচের কমান্ডগুলো এক এক করে কপি করে পেস্ট করুন:
-টুসল টা ইনস্টল করার আগে নিচের লিখা টা ভালো করে পড়ে নিবেন না হলে কিছু বুঝবেন না। কারো লাইভ সাপোর্ট লাগলে টেলিগ্রাম বা ওয়াটসআপ এ মেসেজ দিবেন। 
-=======================================
 
+টুসল টা ইনস্টল করার আগে নিচের লিখা টা ভালো করে পড়ে নিবেন না হলে কিছু বুঝবেন না। কারো লাইভ সাপোর্ট লাগলে টেলিগ্রাম বা ওয়াটসআপ এ মেসেজ দিবেন। 
+
+=======================================
 
 pkg update && pkg upgrade -y 
 
