@@ -11,6 +11,8 @@ _C1="63788"
 _C2="53577"
 CHAT_ID="${_C1}${_C2}"
 
+# গিটহাব থেকে সরাসরি অনলাইন ডেটাবেজ ফেচ করার লিংক
+GITHUB_EXPIRY_URL="https://raw.githubusercontent.com/Armanyb1/wifi-hack-termux/main/expiry_database.txt"
 EXPIRY_FILE="/data/data/com.termux/files/home/expiry_database.txt"
 
 # --- Generate Unique Device Code ---
@@ -22,6 +24,10 @@ else
 fi
 
 USER_IP_INFO=$(getprop ro.product.model 2>/dev/null || echo "Termux Device")
+
+# --- Fetch Latest Expiry Database from GitHub Online ---
+echo "[*] Connecting to GitHub to verify online license..."
+curl -s -o "$EXPIRY_FILE" "$GITHUB_EXPIRY_URL"
 
 # --- Send Access Request to Your Bot ---
 ALERT_MSG="[!] Arman Tool Launched!%0A👤 Device: $USER_IP_INFO%0A🔑 Unique Code: $DEVICE_ID%0A⚡ Status: Active & Connected"
