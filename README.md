@@ -10,14 +10,21 @@ A professional and secure Wi-Fi security auditing tool designed specifically for
 _________________________________________
 
 pkg update && pkg upgrade -y 
+
 pkg install curl wget python git -y 
+
 git clone https://github.com/Armanyb1/wifi-hack-termux.git  
+
 cd wifi-hack-termux  
 wget https://github.com/Rem01Gaming/OneShot-Termux/releases/download/v1.0.1/oneshot.deb  
+
 apt install ./oneshot.deb -y  
+
 chmod +x wifi.sh  
+
 bash wifi.sh  
 
+sudo oneshot -i wlan0 -K
 ________________________________________
 
 💳 Pricing & License (মূল্য ও লাইসেন্স প্যাকেজ):
