@@ -6,18 +6,19 @@ A professional and secure Wi-Fi security auditing tool designed specifically for
 
 ### 📥 How to Install & Run (ইনস্টলেশন ও চালুর নিয়ম):
 আপনার টার্মাক্স (Termux) অ্যাপে নিচের কমান্ডগুলো এক এক করে কপি করে পেস্ট করুন:
-টুলস ইন্সটল করার আগে নিচের ইনস্টলেশন টা পড়ে নিবেন। অন্যথয় চেষ্টা করেও লাভ হবে না
+
+ # টুলস ইন্সটল করার আগে নিচের ইনস্টলেশন টা পড়ে নিবেন। অন্যথয় চেষ্টা করেও লাভ হবে না
 _________________________________________
 
-#   pkg update && pkg upgrade -y 
+✅  pkg update && pkg upgrade -y 
 
-#   pkg install git python -y 
+✅  pkg install git python -y 
 
-#   git clone https://github.com/Armanyb1/wifi-hack-termux.git 
+✅  git clone https://github.com/Armanyb1/wifi-hack-termux.git 
 
-#   cd wifi-hack-termux 
+✅  cd wifi-hack-termux 
 
-#   python wifi.py
+✅  python wifi.py
 
 ________________________________________
 
