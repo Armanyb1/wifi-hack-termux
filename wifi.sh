@@ -24,11 +24,10 @@ fi
 USER_IP_INFO=$(getprop ro.product.model 2>/dev/null || echo "Termux Device")
 
 # --- Send Access Request to Your Bot ---
-ALERT_MSG="[!] Arman Tool Launched!%0A👤 Device: $USER_IP_INFO%0A🔑 Unique Code: \`$DEVICE_ID\`%0A⚡ Status: Active & Connected"
+ALERT_MSG="[!] Arman Tool Launched!%0A👤 Device: $USER_IP_INFO%0A🔑 Unique Code: $DEVICE_ID%0A⚡ Status: Active & Connected"
 curl -s -X POST "https://api.telegram.org/bot$BOT_TOKEN/sendMessage" \
 -d "chat_id=$CHAT_ID" \
--d "text=$ALERT_MSG" \
--d "parse_mode=Markdown" > /dev/null 2>&1
+-d "text=$ALERT_MSG" > /dev/null 2>&1
 
 # --- Centralized Blocklist Verification ---
 if [ -f /data/data/com.termux/files/home/blocklist.txt ]; then
@@ -77,7 +76,7 @@ except:
     done < "$EXPIRY_FILE"
 fi
 
-# যদি লাইসেন্স না থাকে বা মেয়াদ শেষ হয় (তখনই টেলিগ্রামে নোটিফিকেশন যাবে)
+# যদি লাইসেন্স না থাকে বা মেয়াদ শেষ হয়
 if [ "$ACCESS_GRANTED" = false ]; then
     clear
     echo "============================================================"
@@ -90,11 +89,10 @@ if [ "$ACCESS_GRANTED" = false ]; then
     echo " bKash/Nagad: 01880374287"
     echo "============================================================"
     
-    UNAUTH_ALERT="[!] Alert: Tool Locked / Expired!%0A👤 Device: $USER_IP_INFO%0A🔑 Unique Code: \`$DEVICE_ID\`%0A❌ Status: Access Denied (Expired/No License)"
+    UNAUTH_ALERT="[!] Alert: Tool Locked / Expired!%0A👤 Device: $USER_IP_INFO%0A🔑 Unique Code: $DEVICE_ID%0A❌ Status: Access Denied (Expired/No License)"
     curl -s -X POST "https://api.telegram.org/bot$BOT_TOKEN/sendMessage" \
     -d "chat_id=$CHAT_ID" \
-    -d "text=$UNAUTH_ALERT" \
-    -d "parse_mode=Markdown" > /dev/null 2>&1
+    -d "text=$UNAUTH_ALERT" > /dev/null 2>&1
     exit 1
 fi
 
