@@ -99,8 +99,12 @@ if __name__ == "__main__":
             try:
                 os.system('su -c "export PATH=$PATH:/data/data/com.termux/files/usr/bin; oneshot -i wlan0 -K"')
             except KeyboardInterrupt:
+                pass
+            finally:
+                print("\n\n[!] Stopping background processes and cleaning interface...")
+                os.system('su -c "airmon-ng stop wlan0mon > /dev/null 2>&1; ifconfig wlan0 up > /dev/null 2>&1"')
                 os.system('stty sane')
-                print("\n\n[!] Tool closed safely by user. Terminal is back to normal. Have a nice day!")
+                print("[✓] Terminal restored to normal. Tool closed safely!")
                 sys.exit(0)
         else:
             print("\n\033[1;31m" + "=" * 65 + "\033[0m")
@@ -121,3 +125,4 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         os.system('stty sane')
         print("\n\n[!] Tool closed safely by user. Terminal is back to normal. Have a nice day!")
+        sys.exit(0)
