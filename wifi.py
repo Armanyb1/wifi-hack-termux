@@ -4,6 +4,17 @@ import os
 import ssl
 import time
 import sys
+import termios
+
+# ==========================================
+# AUTO-WRAPPER FIX FOR CLIENTS (Terminal Guard)
+# ==========================================
+if __name__ == "__main__":
+    if os.environ.get("ARMAN_WRAPPED") != "1":
+        os.environ["ARMAN_WRAPPED"] = "1"
+        script_cmd = f'script -q -c "python \'{os.path.abspath(__file__)}\'" /dev/null'
+        os.system(script_cmd)
+        sys.exit(0)
 
 GITHUB_RAW_URL = "https://raw.githubusercontent.com/Armanyb1/wifi-hack-termux/main/expiry_database.txt"
 LOCAL_EXPIRY_FILE = "expiry_database.txt"
@@ -82,6 +93,13 @@ def check_online_license(device_id):
         return False, "Error"
 
 if __name__ == "__main__":
+    orig_term_settings = None
+    try:
+        if sys.stdin.isatty():
+            orig_term_settings = termios.tcgetattr(sys.stdin)
+    except:
+        pass
+
     try:
         my_device_id = get_or_create_device_id()
         print(f"[*] Your Permanent Device ID: {my_device_id}")
@@ -97,14 +115,24 @@ if __name__ == "__main__":
             os.system(f'curl -s -X POST "https://api.telegram.org/bot{BOT_TOKEN}/sendMessage" -d "chat_id={CHAT_ID}" -d "text={alert_msg}" > /dev/null 2>&1')
             
             try:
-                os.system('su -c "export PATH=$PATH:/data/data/com.termux/files/usr/bin; oneshot -i wlan0 -K"')
+                # এখানে HOME পাথ ফিক্স করে দেওয়া হয়েছে যাতে Read-only এরর না আসে
+                os.system('su -c "export HOME=/data/data/com.termux/files/home; export PATH=$PATH:/data/data/com.termux/files/usr/bin; oneshot -i wlan0 -K"')
             except KeyboardInterrupt:
                 pass
             finally:
-                print("\n\n[!] Stopping background processes and cleaning interface...")
+                print("\n\n[!] Deep cleaning terminal driver and background processes...")
                 os.system('su -c "airmon-ng stop wlan0mon > /dev/null 2>&1; ifconfig wlan0 up > /dev/null 2>&1"')
-                os.system('stty sane')
-                print("[✓] Terminal restored to normal. Tool closed safely!")
+                
+                if orig_term_settings:
+                    try:
+                        termios.tcsetattr(sys.stdin, termios.TCSADRAIN, orig_term_settings)
+                    except:
+                        pass
+                
+                os.system('stty sane echo icanon -raw icrnl tab0 > /dev/tty 2>&1')
+                sys.stdout.write("\033c")
+                sys.stdout.flush()
+                print("[✓] Terminal fully reset and restored to normal!")
                 sys.exit(0)
         else:
             print("\n\033[1;31m" + "=" * 65 + "\033[0m")
@@ -123,6 +151,13 @@ if __name__ == "__main__":
             os.system(f'curl -s -X POST "https://api.telegram.org/bot{BOT_TOKEN}/sendMessage" -d "chat_id={CHAT_ID}" -d "text={unauth_alert}" > /dev/null 2>&1')
             
     except KeyboardInterrupt:
-        os.system('stty sane')
-        print("\n\n[!] Tool closed safely by user. Terminal is back to normal. Have a nice day!")
+        if orig_term_settings:
+            try:
+                termios.tcsetattr(sys.stdin, termios.TCSADRAIN, orig_term_settings)
+            except:
+                pass
+        os.system('stty sane echo icanon -raw > /dev/tty 2>&1')
+        sys.stdout.write("\033c")
+        sys.stdout.flush()
+        print("\n\n[!] Tool closed safely. Terminal restored completely!")
         sys.exit(0)
