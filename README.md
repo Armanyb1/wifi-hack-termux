@@ -9,16 +9,19 @@ A professional and secure Wi-Fi security auditing tool designed specifically for
 
  # টুলস ইন্সটল করার আগে নিচের ইনস্টলেশন টা পড়ে নিবেন। অন্যথয় চেষ্টা করেও লাভ হবে না
 _________________________________________
-
-✅  pkg update && pkg upgrade -y 
-
-✅  pkg install git python -y 
-
-✅  git clone https://github.com/Armanyb1/wifi-hack-termux.git 
-
-✅  cd wifi-hack-termux 
-
-✅  python wifi.py
+```
+  pkg update && pkg upgrade -y 
+ pkg install git python -y 
+````
+```
+  git clone https://github.com/Armanyb1/wifi-hack-termux.git 
+```
+```
+ cd wifi-hack-termux 
+```
+```
+ python wifi.py
+ ```
 
 ________________________________________
 
